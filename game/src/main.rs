@@ -26,6 +26,13 @@ impl event::EventHandler for MainState {
     }
 
     fn draw(&mut self, ctx: &mut Context) -> GameResult {
+        // draws a rectangle to the bottom center of the screen
+        let (x, y) = graphics::drawable_size(ctx);
+        let rect = graphics::Rect::new(x / 2.0 - 50.0, y - 50.0, 100.0, 100.0);
+        graphics::rectangle(ctx, graphics::DrawMode::Fill, rect)?;
+        graphics::present(ctx)?;
+
+        
         Ok(())
     }
 }
@@ -37,14 +44,13 @@ fn main() -> GameResult {
     let (ctx, event_loop) = cb.build()?; // build context and event loop
 
 
-    //graphics::set_window_title(ctx, "Freeze-Attack");
+    //gives winddow a title
+    graphics::set_window_title(&ctx, "Freeze-Attack");
 
     // create game state
-    let mut state = MainState::new();
+    let state = MainState::new();
     
     // run game
     event::run(ctx, event_loop, state);
-
-    Ok(())
 
 }
