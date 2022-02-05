@@ -3,27 +3,43 @@
 // imports
 extern crate ggez;
 use ggez::graphics::{self, Color, DrawMode, Rect, Text, TextFragment};
+use ggez::input::keyboard::{self, KeyCode};
 use ggez::{conf, event, Context, GameResult};
+//use ggez::nalgreba as na;
 
-struct MainState {}
+struct MainState {
+    // position player bottom of the screen
+    player_x: f32,
+    player_y: f32,
+}
 
 impl MainState {
     fn new() -> Self {
-        MainState {}
+        MainState {
+            player_x: 0.0,
+            player_y: 0.0,
+        }
     }
 }
 
 impl event::EventHandler for MainState {
     fn update(&mut self, ctx: &mut Context) -> GameResult {
+        // player movement
+        if keyboard::is_key_pressed(ctx, KeyCode::A) {
+            self.player_x -= 10.0;
+        }
+        if keyboard::is_key_pressed(ctx, KeyCode::D) {
+            self.player_x += 10.0;
+        }
         Ok(())
     }
 
     fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
         // make background black
         graphics::clear(ctx, Color::from_rgb(0, 0, 0));
-        // draw player at the bottom of the screen
-        let (x, y) = graphics::drawable_size(ctx);
-        let player_rect = graphics::Rect::new(x / 2.0 - 50.0, y - 50.0, 100.0, 100.0);
+
+        // draw player at the bottom of the screen with player movement
+        let player_rect = Rect::new(self.player_x, self.player_y, 50.0, 50.0);
         let player_rect_mesh = graphics::Mesh::new_rectangle(
             ctx,
             DrawMode::fill(),
@@ -35,7 +51,6 @@ impl event::EventHandler for MainState {
             &player_rect_mesh,
             (ggez::mint::Point2 { x: 0.0, y: 0.0 },),
         )?;
-        graphics::present(ctx)?;
 
         Ok(())
     }
