@@ -21,17 +21,20 @@ impl event::EventHandler for MainState {
     fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
         // make background black
         graphics::clear(ctx, Color::from_rgb(0, 0, 0));
-
-        // draws a rectangle to the bottom center of the screen
+        // draw player at the bottom of the screen
         let (x, y) = graphics::drawable_size(ctx);
-        let rect = graphics::Rect::new(x / 2.0 - 50.0, y - 50.0, 100.0, 100.0);
-        let rect_mesh = graphics::Mesh::new_rectangle(
+        let player_rect = graphics::Rect::new(x / 2.0 - 50.0, y - 50.0, 100.0, 100.0);
+        let player_rect_mesh = graphics::Mesh::new_rectangle(
             ctx,
             DrawMode::fill(),
-            rect,
+            player_rect,
             Color::from_rgb(255, 255, 255),
         )?;
-        graphics::draw(ctx, &rect_mesh, (ggez::mint::Point2 { x: 0.0, y: 0.0 },))?;
+        graphics::draw(
+            ctx,
+            &player_rect_mesh,
+            (ggez::mint::Point2 { x: 0.0, y: 0.0 },),
+        )?;
         graphics::present(ctx)?;
 
         Ok(())
