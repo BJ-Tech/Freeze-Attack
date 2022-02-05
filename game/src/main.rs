@@ -25,7 +25,7 @@ impl event::EventHandler for MainState {
         Ok(())
     }
 
-    fn rectangle ( ctx: &mut Context,) -> GameResult {
+    fn draw(&mut self, ctx: &mut Context) -> GameResult <()> {
         // draws a rectangle to the bottom center of the screen
         let (x, y) = graphics::drawable_size(ctx);
         let rect = graphics::Rect::new(x / 2.0 - 50.0, y - 50.0, 100.0, 100.0);
@@ -35,6 +35,7 @@ impl event::EventHandler for MainState {
         
         Ok(())
     }
+    
 }
 
 
