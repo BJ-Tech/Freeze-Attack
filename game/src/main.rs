@@ -10,26 +10,41 @@ use ggez::{
     GameResult,
 };
 
-// window setup
-pub struct WindowSetup {
-    pub width: f32,
-    pub height: f32,
-    pub title: String,
+struct MainState {
 }
 
-fn main() {
-    // create context
-    let (mut ctx, mut event_loop) = conf::Conf::new()
-        .window_setup(conf::WindowSetup::default().title("Freeze Attack"))
-        .window_mode(conf::WindowMode::default().dimensions(800.0, 600.0))
-        .build()
-        .expect("Could not create ggez context");
+impl MainState {
+    fn new() -> Self {
+        MainState {
+        }
+    }
+}
 
-    // Set window position here
-    let (ref mut ctx, event_loop) = &mut cb.build()?; 
-    let window = graphics::window(ctx);
-    let mut pos = window.get_position().unwrap();
-    pos.x = 0.0;
-    pos.y = 0.0;
-    window.set_position(pos);
+impl event::EventHandler for MainState {
+    fn update(&mut self, ctx: &mut Context) -> GameResult {
+        Ok(())
+    }
+
+    fn draw(&mut self, ctx: &mut Context) -> GameResult {
+        Ok(())
+    }
+}
+
+
+fn main() -> GameResult {
+    // context builder
+    let cb = ggez::ContextBuilder::new("Freeze-Attack", "Freeze-Attack");
+    let (ctx, event_loop) = cb.build()?; // build context and event loop
+
+
+    //graphics::set_window_title(ctx, "Freeze-Attack");
+
+    // create game state
+    let mut state = MainState::new();
+    
+    // run game
+    event::run(ctx, event_loop, state);
+
+    Ok(())
+
 }
