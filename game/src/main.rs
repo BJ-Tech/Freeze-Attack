@@ -2,21 +2,14 @@
 
 // imports
 extern crate ggez;
-use ggez::{
-    conf,
-    event,
-    graphics,
-    Context,
-    GameResult,
-};
+use ggez::graphics::{self, Color, DrawMode, Rect, Text, TextFragment};
+use ggez::{conf, event, Context, GameResult};
 
-struct MainState {
-}
+struct MainState {}
 
 impl MainState {
     fn new() -> Self {
-        MainState {
-        }
+        MainState {}
     }
 }
 
@@ -25,33 +18,37 @@ impl event::EventHandler for MainState {
         Ok(())
     }
 
-    fn draw(&mut self, ctx: &mut Context) -> GameResult <()> {
+    fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
+        // make background black
+        graphics::clear(ctx, Color::from_rgb(0, 0, 0));
+
         // draws a rectangle to the bottom center of the screen
         let (x, y) = graphics::drawable_size(ctx);
         let rect = graphics::Rect::new(x / 2.0 - 50.0, y - 50.0, 100.0, 100.0);
-        graphics::rectangle(ctx, graphics::DrawMode::Fill, rect)?;
+        let rect_mesh = graphics::Mesh::new_rectangle(
+            ctx,
+            DrawMode::fill(),
+            rect,
+            Color::from_rgb(255, 255, 255),
+        )?;
+        graphics::draw(ctx, &rect_mesh, (ggez::mint::Point2 { x: 0.0, y: 0.0 },))?;
         graphics::present(ctx)?;
 
-        
         Ok(())
     }
-    
 }
-
 
 fn main() -> GameResult {
     // context builder
     let cb = ggez::ContextBuilder::new("Freeze-Attack", "Freeze-Attack");
     let (ctx, event_loop) = cb.build()?; // build context and event loop
 
-
     //gives winddow a title
     graphics::set_window_title(&ctx, "Freeze-Attack");
 
     // create game state
     let state = MainState::new();
-    
+
     // run game
     event::run(ctx, event_loop, state);
-
 }
